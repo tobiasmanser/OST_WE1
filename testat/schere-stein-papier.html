@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Schere Stein Papier</title>
@@ -7,7 +7,29 @@
   <script src="scripts/main.js" type="module"></script>
 </head>
 <body>
-<h1>Schere Stein Papier</h1>
-
+<main>
+  <h1>Schere Stein Papier</h1>
+  <section id="start-screen">
+    <div id="choose-region">
+      <button id="change-to-server">Change to Server</button>
+      <button class="hidden" id="changeToLocal">Change to Local</button>
+    </div>
+    <div id="login">
+      <label for="name">Name </label><input id="name" type="text" placeholder="Name">
+      <button id="Play">Start Game</button>
+    </div>
+  </section>
+  <section id="game">
+    <h2>Choose Your Hand</h2>
+    <ul id="play-buttons">
+      <li><button id="rock">Rock</button></li>
+      <li><button id="paper">Paper</button></li>
+      <li><button id="scissor">Scissor</button></li>
+      <li><button id="spock">Spock</button></li>
+      <li><button id="lizard">Lizard</button></li>
+    </ul>
+    <ul id="history"></ul>
+  </section>
+</main>
 </body>
 </html>

@@ -29,21 +29,40 @@ export class OfflineGameService {
     // Can be used to check if the selected hand wins/loses
     // TODO : complete structure
     #resultLookup = {
-        scissors: {
-            scissors: 0,
-            rock: 1,
-            paper: -1,
-        },
         rock: {
-            scissors: 0,
             rock: 0,
-            paper: 0,
+            scissors: 1,
+            paper: -1,
+            spock: -1,
+            lizard: 1,
+        },
+        scissors: {
+            rock: -1,
+            scissors: 0,
+            paper: 1,
+            spock: -1,
+            lizard: 1,
         },
         paper: {
-            scissors: 0,
-            rock: 0,
+            rock: 1,
+            scissors: -1,
             paper: 0,
+            spock: 1,
+            lizard: -1,
         },
+        spock: {
+            rock: 1,
+            scissors: 1,
+            paper: -1,
+            spock: 0,
+            lizard: -1,
+        },
+        lizard: {
+            rock: -1,
+            scissors: -1,
+            paper: 1,
+            spock: 1,
+        }
     };
 
     async getRankings() { 
@@ -54,7 +73,7 @@ export class OfflineGameService {
     // TODO
     async evaluate(playerName, playerHand) {
         const systemHand = this.possibleHands[0];
-        const gameEval = 0;
+        const gameEval = this.#resultLookup[playerHand][systemHand];
 
         console.log(playerName, playerHand, systemHand, gameEval);
 
