@@ -2,7 +2,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* default box model */
 }
 
 html {
@@ -11,10 +11,12 @@ html {
     font-family: Arial, sans-serif; /* You can customize this to a preferred font */
     background-color: #f4f4f4; /* Light background */
     color: #333; /* Dark text color for readability */
+    height: 100%;
 }
 
 body {
     margin: 0;
+    height: 100%;
     padding: 10px;
 }
 
@@ -48,6 +50,15 @@ button:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
 
+button:active {
+    transform: scale(0.98); /* Slightly reduce size when clicked */
+}
+
+button:disabled {
+    background-color: #ccc; /* Light gray for disabled state */
+    cursor: not-allowed;
+}
+
 /* Input fields */
 input[type="text"] {
     padding: 10px;
@@ -64,24 +75,28 @@ input:focus {
 }
 
 /* Lists */
-ul {
+#choices {
+    display: flex;
+    column-gap: 10px;
     list-style: none;
     padding: 0;
 }
 
-ul li {
+#choices li {
     margin-bottom: 10px;
 }
 
 /* Layout styles */
 main {
-    /* max-width: 800px; */
     width: 100%;
+    height: 100%;
     margin: 0 auto;
-    padding: 20px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgb(0 0 0 / 10%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Sections */
@@ -98,16 +113,28 @@ section {
 #login {
     display: flex;
     align-items: center;
+    flex-direction: row;
     column-gap: 10px;
     margin: 15px 0;
 }
 
-#play-buttons {
-    display: flex;
-    column-gap: 10px;
+#login input[type="text"] {
+    flex: 1;
 }
 
-#choose-region {
-    display: flex;
-    justify-content: center;
+#computer-choice {
+    border:#222 solid 1px;
+    border-radius: 5px;
+    height: 50px;
+    width: 100px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#computer-choice::first-letter {
+    text-transform: capitalize;
+}
+
+#back {
+    align-self: flex-start;
 }

@@ -62,6 +62,7 @@ export class OfflineGameService {
             scissors: -1,
             paper: 1,
             spock: 1,
+            lizard: 0,
         }
     };
 
@@ -71,8 +72,8 @@ export class OfflineGameService {
     }
 
     // TODO
-    async evaluate(playerName, playerHand) {
-        const systemHand = this.possibleHands[0];
+    async evaluate(playerName, playerHand, systemHand) {
+        console.log(playerName, playerHand, systemHand);
         const gameEval = this.#resultLookup[playerHand][systemHand];
 
         console.log(playerName, playerHand, systemHand, gameEval);
