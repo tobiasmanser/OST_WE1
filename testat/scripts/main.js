@@ -9,6 +9,12 @@ const choices = document.querySelectorAll('#choices button');
 const switchButton = document.querySelector('#mode-switch');
 const history = document.querySelector('#history-table tbody');
 const computerChoice = document.querySelector('#computer-choice');
+const startButton = document.querySelector('#start-game');
+const nameInput = document.querySelector('#player-name');
+const game = document.querySelectorAll('.game');
+const startScreen = document.querySelectorAll('.start-screen');
+const backButton = document.querySelector('#back-button');
+const greeting = document.querySelector('#greeting');
 
 let name;
 
@@ -24,9 +30,23 @@ function switchMode() {
     return gameService.isOnline ? 'Local' : 'Server';
 }
 
+function startGame() {
+    name = nameInput.value;
+    if (!name) {
+        alert('Please enter your name');
+        return;
+    }
+    console.log('Player Name:', name);
+    greeting.textContent = `Hello, ${name}!`;
+    startScreen.forEach(s => s.classList.add('hidden'));
+    game.forEach(s => s.classList.remove('hidden'));
+}
+
 switchButton.addEventListener('click', () => {
     switchButton.textContent = `Switch to ${switchMode()} Mode`;
 });
+
+startButton.addEventListener('click', startGame);
 
 
 function disableButtons(value) {
@@ -80,3 +100,12 @@ choices.forEach(button => {
         makeChoice(button)
     });
 })
+
+backButton.addEventListener('click', () => {
+    game.forEach(s => s.classList.add('hidden'));
+    startScreen.forEach(s => s.classList.remove('hidden'));
+    history.innerHTML = '';
+    nameInput.value = '';
+    computerChoice.textContent = '-';
+    name = '';
+});

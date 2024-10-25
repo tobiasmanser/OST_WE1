@@ -9,20 +9,20 @@
 <body>
   <main>
     <h1>Rock, Paper, Scissors, Spock, Lizard</h1>
-    <button id="mode-switch">Switch to Server Mode</button>
+    <button class="start-screen hidden" id="mode-switch">Switch to Server Mode</button>
 
-    <section id="ranking">
+    <section class="start-screen" id="ranking">
       <h2>Local Ranking List</h2>
       <ul id="ranking-list"></ul>
     </section>
 
-    <section id="login">
+    <section class="start-screen" id="login">
       <input type="text" id="player-name" placeholder="Enter your name">
-      <button id="start game">Start Game</button>
+      <button id="start-game">Start Game</button>
     </section>
 
-    <section id="game">
-      <button id="back">Back</button>
+    <section class="game hidden" id="game">
+      <button id="back-button">Back</button>
       <h2 id="greeting">Hallo</h2>
       
       <ul id="choices">
@@ -34,9 +34,9 @@
       </ul>
       <h1>X</h1>
       <p>Computer Choice</p>
-      <p id="computer-choice">Lizard</p>
+      <p id="computer-choice">-</p>
     </section>
-    <section id="history">
+    <section class="game hidden" id="history">
       <h2>Game History</h2>
       <table id="history-table">
         <thead>

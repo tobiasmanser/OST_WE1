@@ -106,12 +106,7 @@ section {
     align-items: center;
 }
 
-.hidden {
-    display: none;
-}
-
 #login {
-    display: flex;
     align-items: center;
     flex-direction: row;
     column-gap: 10px;
@@ -135,6 +130,10 @@ section {
     text-transform: capitalize;
 }
 
-#back {
+#back-button {
     align-self: flex-start;
+}
+
+.hidden {
+    display: none;
 }
