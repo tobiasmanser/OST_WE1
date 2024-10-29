@@ -67,12 +67,22 @@ function disableButtons(value) {
     });
 }
 
+function getResultIcon(result) {
+    if (result === 1) {
+        return '✔️';
+    } 
+    if (result === -1) {
+        return '❌';
+    }
+    return '🤝'; 
+}
+
 function updateHistory(player, playerHand, systemHand, result) {
     const row = history.insertRow(-1);
     row.insertCell(0).textContent = playerHand;
     row.insertCell(1).textContent = systemHand;
     console.log(result);
-    row.insertCell(2).textContent = result;
+    row.insertCell(2).textContent = getResultIcon(result);
 }
 
 function updateComputerChoice(hand) {

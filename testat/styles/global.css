@@ -171,6 +171,7 @@ section {
 #history-table th, #history-table td {
     padding: 3px 10px;
     border: 1px solid #ddd;
+    text-align: center;
 }
 
 #history-table th {
@@ -188,12 +189,24 @@ button.win {
     color: white;
 }
 
+button.win:hover {
+    background-color: darkgreen;
+}
+
 button.lose {
     background-color: red;
     color: white;
 }
 
+button.lose:hover {
+    background-color: darkred;
+}
+
 button.draw {
     background-color: orange;
     color: white;
+}
+
+button.draw:hover {
+    background-color: darkorange;
 }
