@@ -137,3 +137,63 @@ section {
 .hidden {
     display: none;
 }
+
+/* Style for the ranking table */
+#ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    text-align: left;
+}
+
+#ranking-table th, #ranking-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+#ranking-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+#ranking-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Style for the history table */
+#history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    text-align: left;
+}
+
+#history-table th, #history-table td {
+    padding: 3px 10px;
+    border: 1px solid #ddd;
+}
+
+#history-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+#history-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Button colors for game results */
+button.win {
+    background-color: green;
+    color: white;
+}
+
+button.lose {
+    background-color: red;
+    color: white;
+}
+
+button.draw {
+    background-color: orange;
+    color: white;
+}

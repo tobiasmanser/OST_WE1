@@ -16,8 +16,8 @@ export class OfflineGameService {
         },
         Michael: {
             user: 'Michael',
-            win: 4,
-            lost: 5,
+            win: 3,
+            lost: 6,
         },
         Lisa: {
             user: 'Lisa',
@@ -67,8 +67,48 @@ export class OfflineGameService {
     };
 
     async getRankings() { 
-        // TODO create ranking from playerState for Example: [{rank: 1, wins: 10, players: ["Michael", "Lias"]}, {rank: 2, wins: 5, players: ["Max"]}]
-        return Promise.resolve(this.#playerState);
+        // Check if playerState is defined
+        if (!this.#playerState) {
+            throw new Error("playerState is not defined");
+        }
+    
+        // Extract players and their win counts
+        const players = Object.values(this.#playerState).map(player => ({
+            user: player.user,
+            wins: player.win
+        }));
+    
+        // Sort players by wins in descending order
+        players.sort((a, b) => b.wins - a.wins);
+    
+        // Create ranking array
+        const rankingArray = [];
+        let currentRank = 1;
+        let currentWins = players[0].wins;
+        let currentPlayers = [];
+    
+        players.forEach(player => {
+            if (player.wins !== currentWins) {
+                rankingArray.push({
+                    rank: currentRank,
+                    wins: currentWins,
+                    players: currentPlayers
+                });
+                currentRank = rankingArray.length + 1;
+                currentWins = player.wins;
+                currentPlayers = [];
+            }
+            currentPlayers.push(player.user);
+        });
+    
+        // Push the last group
+        rankingArray.push({
+            rank: currentRank,
+            wins: currentWins,
+            players: currentPlayers
+        });
+    
+        return rankingArray;
     }
 
     // TODO
@@ -79,6 +119,13 @@ export class OfflineGameService {
         console.log(playerName, playerHand, systemHand, gameEval);
 
         await Utils.wait(OfflineGameService.DELAY_MS); // emulate async
+        
+        if (!Object.keys(this.#playerState).includes(playerName)) {
+            this.#playerState[playerName] = { user: playerName, win: 0, lost: 0 };
+        }
+        this.#playerState[playerName].win += gameEval === 1 ? 1 : 0;
+        this.#playerState[playerName].lost += gameEval === -1 ? 1 : 0;
+        console.log(this.#playerState);
 
         return gameEval;
     }

@@ -9,11 +9,21 @@
 <body>
   <main>
     <h1>Rock, Paper, Scissors, Spock, Lizard</h1>
-    <button class="start-screen hidden" id="mode-switch">Switch to Server Mode</button>
+    <button class="start-screen" id="mode-switch">Switch to Server Mode</button>
 
     <section class="start-screen" id="ranking">
       <h2>Local Ranking List</h2>
-      <ul id="ranking-list"></ul>
+      <table id="ranking-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Wins</th>
+            <th>Names</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
     </section>
 
     <section class="start-screen" id="login">

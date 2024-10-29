@@ -3,8 +3,10 @@ import { gameService } from './model/game-service.js';
 // Dummy Code
 console.log('isOnline:', gameService.isOnline);
 
-const rankings = await gameService.getRankings();
+let rankings = await gameService.getRankings();
+console.log(JSON.stringify(rankings));
 
+const rankingsTable = document.querySelector('#ranking-table tbody');
 const choices = document.querySelectorAll('#choices button');
 const switchButton = document.querySelector('#mode-switch');
 const history = document.querySelector('#history-table tbody');
@@ -48,6 +50,16 @@ switchButton.addEventListener('click', () => {
 
 startButton.addEventListener('click', startGame);
 
+async function updateRankingsTable() {
+    rankings = await gameService.getRankings();
+    rankingsTable.innerHTML = '';
+    rankings.forEach(r => {
+        const row = rankingsTable.insertRow(-1);
+        row.insertCell(0).textContent = r.rank;
+        row.insertCell(1).textContent = r.wins;
+        row.insertCell(2).textContent = r.players.join(', ');
+    });
+}
 
 function disableButtons(value) {
     choices.forEach(button => {
@@ -67,7 +79,14 @@ function updateComputerChoice(hand) {
     computerChoice.textContent = hand;
 }
 
+function resetButtons() {
+    choices.forEach(button => {
+        button.classList.remove('win', 'lose', 'draw');
+    });
+}
+
 async function makeChoice(button) {
+    resetButtons();
     disableButtons(true);
     
     // Ensure possibleHands has valid entries and show them in the console
@@ -83,16 +102,28 @@ async function makeChoice(button) {
     updateComputerChoice(systemHand);
 
     // Evaluate the game result
-    const result = await gameService.evaluate('Michael', button.dataset.choice, systemHand);
+    const result = await gameService.evaluate(name, button.dataset.choice, systemHand);
     
     // Log the result for debugging
     console.log('Game Result:', result);
 
     // Update the history with the choices and result
-    updateHistory('Michael', button.dataset.choice, systemHand, result);
+    updateHistory(name, button.dataset.choice, systemHand, result);
+
+    // Add the appropriate class to the button based on the result
+    if (result === 1) {
+        button.classList.add('win');
+    } else if (result === -1) {
+        button.classList.add('lose');
+    } else {
+        button.classList.add('draw');
+    }
 
     // Re-enable buttons after the choices and updates
     disableButtons(false);
+
+    
+    updateRankingsTable();
 }
 
 choices.forEach(button => {
@@ -100,6 +131,8 @@ choices.forEach(button => {
         makeChoice(button)
     });
 })
+
+
 
 backButton.addEventListener('click', () => {
     game.forEach(s => s.classList.add('hidden'));
@@ -109,3 +142,5 @@ backButton.addEventListener('click', () => {
     computerChoice.textContent = '-';
     name = '';
 });
+
+updateRankingsTable();
