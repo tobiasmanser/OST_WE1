@@ -118,15 +118,22 @@ section {
 }
 
 #computer-choice {
-    border:#222 solid 1px;
+    border: #222 solid 1px;
     border-radius: 5px;
-    height: 50px;
-    width: 100px;
-    text-align: center;
-    vertical-align: middle;
+    height: 30px;
+    width: 90px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
-#computer-choice::first-letter {
+#computer-choice-field {
+    display: inline-block;
+    align-self: center;
+    margin: 0;
+}
+
+#computer-choice-field::first-letter {
     text-transform: capitalize;
 }
 
@@ -209,4 +216,20 @@ button.draw {
 
 button.draw:hover {
     background-color: darkorange;
+}
+
+/* Button colors for game results */
+#computer-choice.win {
+    background-color: green;
+    color: white;
+}
+
+#computer-choice.lose {
+    background-color: red;
+    color: white;
+}
+
+#computer-choice.draw {
+    background-color: orange;
+    color: white;
 }

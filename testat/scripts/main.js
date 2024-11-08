@@ -1,18 +1,17 @@
 import { gameService } from './model/game-service.js';
 
-let rankings = await gameService.getRankings();
-
 const rankingsTable = document.querySelector('#ranking-table tbody');
-const choices = document.querySelectorAll('#choices button');
+const choiceButtons = document.querySelectorAll('#choices button');
 const switchButton = document.querySelector('#mode-switch');
 const historyTable = document.querySelector('#history-table tbody');
-const computerChoice = document.querySelector('#computer-choice');
+const computerChoiceField = document.querySelector('#computer-choice-field');
+const computerChoiceBox = document.querySelector('#computer-choice');
 const startButton = document.querySelector('#start-game');
-const nameInput = document.querySelector('#player-name');
-const game = document.querySelectorAll('.game');
+const nameInputField = document.querySelector('#player-name');
+const gameSection = document.querySelectorAll('.game');
 const startScreen = document.querySelectorAll('.start-screen');
 const backButton = document.querySelector('#back-button');
-const greeting = document.querySelector('#greeting');
+const greetingField = document.querySelector('#greeting');
 
 let name;
 
@@ -23,14 +22,14 @@ function switchMode() {
 }
 
 function startGame() {
-    name = nameInput.value;
+    name = nameInputField.value;
     if (!name) {
         // alert('Please enter your name');
         return;
     }
-    greeting.textContent = `Hello, ${name}!`;
+    greetingField.textContent = `Hello, ${name}!`;
     startScreen.forEach(s => s.classList.add('hidden'));
-    game.forEach(s => s.classList.remove('hidden'));
+    gameSection.forEach(s => s.classList.remove('hidden'));
 }
 
 switchButton.addEventListener('click', () => {
@@ -40,7 +39,7 @@ switchButton.addEventListener('click', () => {
 startButton.addEventListener('click', startGame);
 
 async function updateRankingsTable() {
-    rankings = await gameService.getRankings();
+    const rankings = await gameService.getRankings();
     rankingsTable.innerHTML = '';
     rankings.forEach(r => {
         const row = rankingsTable.insertRow(-1);
@@ -51,7 +50,7 @@ async function updateRankingsTable() {
 }
 
 function disableButtons(value) {
-    choices.forEach(button => {
+    choiceButtons.forEach(button => {
         button.disabled = value;
     });
 }
@@ -74,21 +73,23 @@ function updateHistory(player, playerHand, systemHand, result) {
 }
 
 function updateComputerChoice(hand) {
-    computerChoice.textContent = hand;
+    computerChoiceField.textContent = hand;
 }
 
 function resetButtons() {
-    choices.forEach(button => {
+    choiceButtons.forEach(button => {
         button.classList.remove('win', 'lose', 'draw');
     });
 }
 
+function resetComputerChoiceBox() {
+    computerChoiceBox.classList.remove('win', 'lose', 'draw');
+}
+
 async function makeChoice(button) {
     resetButtons();
+    resetComputerChoiceBox();
     disableButtons(true);
-    
-    // Ensure possibleHands has valid entries and show them in the console
-    // console.log('Possible Hands:', gameService.possibleHands);
 
     // Assign systemHand randomly (you can adjust if needed)
     const systemHand = gameService.possibleHands[Math.floor(Math.random() * gameService.possibleHands.length)];
@@ -111,10 +112,13 @@ async function makeChoice(button) {
     // Add the appropriate class to the button based on the result
     if (result === 1) {
         button.classList.add('win');
+        computerChoiceBox.classList.add('lose');
     } else if (result === -1) {
         button.classList.add('lose');
+        computerChoiceBox.classList.add('win');
     } else {
         button.classList.add('draw');
+        computerChoiceBox.classList.add('draw');
     }
 
     // Re-enable buttons after the choices and updates
@@ -124,20 +128,18 @@ async function makeChoice(button) {
     updateRankingsTable();
 }
 
-choices.forEach(button => {
+choiceButtons.forEach(button => {
     button.addEventListener('click', async () => {
         makeChoice(button)
     });
 })
 
-
-
 backButton.addEventListener('click', () => {
-    game.forEach(s => s.classList.add('hidden'));
+    gameSection.forEach(s => s.classList.add('hidden'));
     startScreen.forEach(s => s.classList.remove('hidden'));
     resetButtons();
-    nameInput.value = '';
-    computerChoice.textContent = '-';
+    nameInputField.value = '';
+    computerChoiceField.textContent = '-';
     name = '';
 });
 
