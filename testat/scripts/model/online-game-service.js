@@ -6,6 +6,7 @@ export class OnlineGameService {
 
     // TODO
     async evaluate(playerName, playerHand) {
+        // eslint-disable-next-line no-console
         console.log(playerName, playerHand);
         // TODO Server API CALL
         return -1;

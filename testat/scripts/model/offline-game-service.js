@@ -111,12 +111,10 @@ export class OfflineGameService {
         return rankingArray;
     }
 
-    // TODO
     async evaluate(playerName, playerHand, systemHand) {
-        console.log(playerName, playerHand, systemHand);
         const gameEval = this.#resultLookup[playerHand][systemHand];
 
-        console.log(playerName, playerHand, systemHand, gameEval);
+        // console.log(playerName, playerHand, systemHand, gameEval);
 
         await Utils.wait(OfflineGameService.DELAY_MS); // emulate async
         
@@ -125,7 +123,6 @@ export class OfflineGameService {
         }
         this.#playerState[playerName].win += gameEval === 1 ? 1 : 0;
         this.#playerState[playerName].lost += gameEval === -1 ? 1 : 0;
-        console.log(this.#playerState);
 
         return gameEval;
     }
