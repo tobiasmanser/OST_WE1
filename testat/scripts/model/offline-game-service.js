@@ -108,10 +108,14 @@ export class OfflineGameService {
             players: currentPlayers
         });
     
-        return rankingArray;
+        return rankingArray.slice(0, 10);
     }
 
-    async evaluate(playerName, playerHand, systemHand) {
+    async evaluate(playerName, playerHand, fnUpdateHistory, fnUpdateComputerChoice) {
+        // Assign systemHand randomly (you can adjust if needed)
+        const systemHand = this.possibleHands[Math.floor(Math.random() * this.possibleHands.length)];
+        fnUpdateComputerChoice(systemHand);
+
         const gameEval = this.#resultLookup[playerHand][systemHand];
 
         // console.log(playerName, playerHand, systemHand, gameEval);
@@ -123,6 +127,8 @@ export class OfflineGameService {
         }
         this.#playerState[playerName].win += gameEval === 1 ? 1 : 0;
         this.#playerState[playerName].lost += gameEval === -1 ? 1 : 0;
+
+        fnUpdateHistory(playerName, playerHand, systemHand, gameEval);
 
         return gameEval;
     }

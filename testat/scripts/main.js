@@ -15,29 +15,6 @@ const greetingField = document.querySelector('#greeting');
 
 let name;
 
-function switchMode() {
-    gameService.isOnline = !gameService.isOnline;
-    // console.log('isOnline:', gameService.isOnline);
-    return gameService.isOnline ? 'Local' : 'Server';
-}
-
-function startGame() {
-    name = nameInputField.value;
-    if (!name) {
-        // alert('Please enter your name');
-        return;
-    }
-    greetingField.textContent = `Hello, ${name}!`;
-    startScreen.forEach(s => s.classList.add('hidden'));
-    gameSection.forEach(s => s.classList.remove('hidden'));
-}
-
-switchButton.addEventListener('click', () => {
-    switchButton.textContent = `Switch to ${switchMode()} Mode`;
-});
-
-startButton.addEventListener('click', startGame);
-
 async function updateRankingsTable() {
     const rankings = await gameService.getRankings();
     rankingsTable.innerHTML = '';
@@ -48,6 +25,31 @@ async function updateRankingsTable() {
         row.insertCell(2).textContent = r.players.join(', ');
     });
 }
+
+function switchMode() {
+    gameService.isOnline = !gameService.isOnline;
+    // console.log('isOnline:', gameService.isOnline);
+    updateRankingsTable();
+    return gameService.isOnline ? 'Local' : 'Server';
+}
+
+function startGame() {
+    name = nameInputField.value;
+    if (!name || name.trim() === '') {
+        // alert('Please enter your name');
+        return;
+    }
+    name = name.trim();
+    greetingField.textContent = `Hello, ${name}!`;
+    startScreen.forEach(s => s.classList.add('hidden'));
+    gameSection.forEach(s => s.classList.remove('hidden'));
+}
+
+switchButton.addEventListener('click', () => {
+    switchButton.textContent = `Switch to ${switchMode()} Mode`;
+});
+
+startButton.addEventListener('click', startGame);
 
 function disableButtons(value) {
     choiceButtons.forEach(button => {
@@ -90,24 +92,15 @@ async function makeChoice(button) {
     resetButtons();
     resetComputerChoiceBox();
     disableButtons(true);
-
-    // Assign systemHand randomly (you can adjust if needed)
-    const systemHand = gameService.possibleHands[Math.floor(Math.random() * gameService.possibleHands.length)];
     
     // Log the selected systemHand choice
     // console.log('System Hand:', systemHand);
 
-    // Update the visual representation or other related functionality
-    updateComputerChoice(systemHand);
-
     // Evaluate the game result
-    const result = await gameService.evaluate(name, button.dataset.choice, systemHand);
+    const result = await gameService.evaluate(name, button.dataset.choice, updateHistory, updateComputerChoice);
     
     // Log the result for debugging
     // console.log('Game Result:', result);
-
-    // Update the history with the choices and result
-    updateHistory(name, button.dataset.choice, systemHand, result);
 
     // Add the appropriate class to the button based on the result
     if (result === 1) {
@@ -138,6 +131,7 @@ backButton.addEventListener('click', () => {
     gameSection.forEach(s => s.classList.add('hidden'));
     startScreen.forEach(s => s.classList.remove('hidden'));
     resetButtons();
+    resetComputerChoiceBox();
     nameInputField.value = '';
     computerChoiceField.textContent = '-';
     name = '';

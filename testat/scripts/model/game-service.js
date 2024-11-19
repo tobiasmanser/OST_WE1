@@ -17,8 +17,8 @@ class GameService {
         return this.service.getRankings();
     }
 
-    async evaluate(playerName, playerHand, systemHand) {
-        return this.service.evaluate(playerName, playerHand, systemHand);
+    async evaluate(playerName, playerHand, fnUpdateHistory, fnUpdateComputerChoice) {
+        return this.service.evaluate(playerName, playerHand, fnUpdateHistory, fnUpdateComputerChoice);
     }
 
     get possibleHands() {
