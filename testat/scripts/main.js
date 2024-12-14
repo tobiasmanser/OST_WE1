@@ -28,7 +28,6 @@ async function updateRankingsTable() {
 
 function switchMode() {
     gameService.isOnline = !gameService.isOnline;
-    // console.log('isOnline:', gameService.isOnline);
     updateRankingsTable();
     return gameService.isOnline ? 'Local' : 'Server';
 }
@@ -93,14 +92,8 @@ async function makeChoice(button) {
     resetComputerChoiceBox();
     disableButtons(true);
     
-    // Log the selected systemHand choice
-    // console.log('System Hand:', systemHand);
-
     // Evaluate the game result
     const result = await gameService.evaluate(name, button.dataset.choice, updateHistory, updateComputerChoice);
-    
-    // Log the result for debugging
-    // console.log('Game Result:', result);
 
     // Add the appropriate class to the button based on the result
     if (result === 1) {

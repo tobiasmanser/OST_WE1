@@ -1,4 +1,7 @@
+import { Utils } from '../utils/utils.js';
+
 export class OnlineGameService {
+    static DELAY_MS = 500;
     async getRankings() {
         try {
             const response = await fetch('https://stone.sifs0005.infs.ch/statistics');
@@ -40,7 +43,7 @@ export class OnlineGameService {
 
             return rankingArray.slice(0, 10);
         } catch (error) {
-            console.error('Error fetching rankings:', error);
+            //console.error('Error fetching rankings:', error);
             return [];
         }
     }
@@ -54,6 +57,7 @@ export class OnlineGameService {
             const result = await response.json();
             if (result.choice) {
                 fnUpdateComputerChoice(result.choice);
+                await Utils.wait(OnlineGameService.DELAY_MS); // emulate async
             }
             let playerResult;
             if (result.win) {
@@ -66,7 +70,7 @@ export class OnlineGameService {
             fnUpdateHistory(playerName, playerHand, result.choice, playerResult);
             return playerResult;
         } catch (error) {
-            console.error('Error evaluating game:', error);
+            //console.error('Error evaluating game:', error);
             return { choice: null, win: false };
         }
     }

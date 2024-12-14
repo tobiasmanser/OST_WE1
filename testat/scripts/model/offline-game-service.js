@@ -27,7 +27,6 @@ export class OfflineGameService {
     };
 
     // Can be used to check if the selected hand wins/loses
-    // TODO : complete structure
     #resultLookup = {
         rock: {
             rock: 0,
@@ -112,16 +111,13 @@ export class OfflineGameService {
     }
 
     async evaluate(playerName, playerHand, fnUpdateHistory, fnUpdateComputerChoice) {
-        // Assign systemHand randomly (you can adjust if needed)
         const systemHand = this.possibleHands[Math.floor(Math.random() * this.possibleHands.length)];
+        
         fnUpdateComputerChoice(systemHand);
+        await Utils.wait(OfflineGameService.DELAY_MS); // emulate async
 
         const gameEval = this.#resultLookup[playerHand][systemHand];
 
-        // console.log(playerName, playerHand, systemHand, gameEval);
-
-        await Utils.wait(OfflineGameService.DELAY_MS); // emulate async
-        
         if (!Object.keys(this.#playerState).includes(playerName)) {
             this.#playerState[playerName] = { user: playerName, win: 0, lost: 0 };
         }
@@ -129,7 +125,6 @@ export class OfflineGameService {
         this.#playerState[playerName].lost += gameEval === -1 ? 1 : 0;
 
         fnUpdateHistory(playerName, playerHand, systemHand, gameEval);
-
         return gameEval;
     }
 }
